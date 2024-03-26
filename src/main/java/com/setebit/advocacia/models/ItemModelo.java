@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
-@Entity(name = "ITEM_MODELO")
+@Entity(name = "ITE_MODELO")
 public class ItemModelo {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "S_ITE_MOD")
