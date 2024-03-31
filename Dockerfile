@@ -8,7 +8,7 @@ ENV APP_NAME="app.jar" \
 # Definindo o diretório de trabalho dentro da imagem
 WORKDIR /app
 
-RUN mvn clean install
+RUN mvn package
 
 # Copiando o arquivo JAR da sua aplicação para o diretório de trabalho na imagem
 COPY /target/app.jar /app/app.jar
@@ -18,3 +18,6 @@ EXPOSE $APP_PORT
 
 # Comando para executar a aplicação quando o container for iniciado
 CMD ["java", "-jar", "app.jar"]
+# Run the jar file
+CMD ["java", "-jar", "target/app.jar"]
+
