@@ -17,7 +17,7 @@ COPY /target/app.jar /app/app.jar
 EXPOSE $APP_PORT
 
 # Comando para executar a aplicação quando o container for iniciado
-CMD ["java", "-jar", "app.jar"]
+#CMD ["java", "-jar", "app.jar"]
 # Run the jar file
 CMD ["java", "-jar", "target/app.jar"]
 
