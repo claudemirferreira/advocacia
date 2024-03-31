@@ -1,36 +1,25 @@
-FROM ubuntu:latest AS build
+# Usar a imagem do Ubuntu 20.04 como base
+FROM ubuntu:20.04
 
-# Atualize os pacotes do sistema e instale as dependências necessárias
+# Atualizar os pacotes do sistema
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y wget && \
-    wget https://download.java.net/java/GA/jdk21.0.1/9363828f724542ef9ea295c57e7e6e1f/9/GPL/openjdk-21.0.1_linux-x64_bin.tar.gz && \
-    tar xvf openjdk-21.0.1_linux-x64_bin.tar.gz && \
-    mkdir -p /usr/lib/jvm && \
-    mv jdk-21.0.1 /usr/lib/jvm/java-21-openjdk && \
-    rm openjdk-21.0.1_linux-x64_bin.tar.gz && \
-    apt-get remove -y wget && \
-    apt-get clean && \
-    update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-21-openjdk/bin/java 1 && \
-    update-alternatives --set java /usr/lib/jvm/java-21-openjdk/bin/java && \
-    update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-21-openjdk/bin/javac 1 && \
-    update-alternatives --set javac /usr/lib/jvm/java-21-openjdk/bin/javac
+    apt-get upgrade -y && \
+    apt-get install -y wget
 
-# Defina a variável de ambiente JAVA_HOME
-ENV JAVA_HOME /usr/lib/jvm/java-21-openjdk
+# Download e instalação do OpenJDK 20
+RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb focal main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
+    apt-get update && \
+    apt-get install -y adoptopenjdk-20-hotspot
 
-# Defina o diretório de trabalho
+# Definir a variável de ambiente JAVA_HOME
+ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-20-hotspot-amd64
+
+# Criar um diretório de trabalho
 WORKDIR /app
 
-# Copie o seu arquivo JAR ou o código fonte para o diretório de trabalho no contêiner
-COPY . /app
+# Copiar o arquivo JAR da sua aplicação para o contêiner
+COPY ./target/app.jar /app.jar
 
-RUN apt-get install maven -y
-RUN mvn clean install
-
-FROM openjdk:21-jdk-slim
-EXPOSE 8080
-
-COPY --from=build /target/app.jar app.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar"]
-
+# Comando para executar a aplicação Java
+CMD ["java", "-jar", "app.jar"]
