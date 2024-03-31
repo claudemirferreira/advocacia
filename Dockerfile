@@ -1,24 +1,18 @@
-FROM ubuntu:22.04
+FROM adoptopenjdk/openjdk16:alpine-jre
 
-RUN apt update -y && apt install -y openjdk-21-jre-headless && rm -rf /var/lib/apt/lists/*
+# Definindo variáveis de ambiente
+ENV APP_NAME="app.jar" \
+    APP_VERSION="1.0" \
+    APP_PORT="8080"
 
-ENV APP_HOME /app
+# Definindo o diretório de trabalho dentro da imagem
+WORKDIR /app
 
-RUN groupadd -r app && useradd -r -gapp app
-RUN mkdir -m 0755 -p ${APP_HOME}/bin
-RUN mkdir -m 0755 -p ${APP_HOME}/config
-RUN mkdir -m 0755 -p ${APP_HOME}/logs/
+# Copiando o arquivo JAR da sua aplicação para o diretório de trabalho na imagem
+COPY ./app.jar /app/app.jar
 
-COPY target/app.jar ${APP_HOME}/bin
-COPY docker-entrypoint.sh /
+# Expondo a porta que a aplicação irá utilizar
+EXPOSE $APP_PORT
 
-RUN mvn clean install
-
-RUN chown -R app:app ${APP_HOME}
-RUN chmod +x /docker-entrypoint.sh
-
-EXPOSE 8080
-EXPOSE 8443
-
-WORKDIR ${APP_HOME}
+# Comando para executar a aplicação quando o container for iniciado
 CMD ["java", "-jar", "app.jar"]
