@@ -21,4 +21,4 @@ EXPOSE 8080
 EXPOSE 8443
 
 WORKDIR ${APP_HOME}
-CMD ["/docker-entrypoint.sh"]
+CMD ["java", "-jar", "app.jar"]
