@@ -18,6 +18,8 @@ ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-20-hotspot-amd64
 # Criar um diretório de trabalho
 WORKDIR /app
 
+RUN mvn clean install
+
 # Copiar o arquivo JAR da sua aplicação para o contêiner
 COPY ./target/app.jar /app.jar
 
