@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
@@ -22,9 +20,10 @@ public class Modelo {
     @Column(name = "MOD_ID")
     private Long id;
 
-    @Column(name = "MOD_NAME", length = 100, nullable = false)
+    @Column(name = "MOD_NAME", unique = true, length = 100, nullable = false)
     private String name;
 
-    @OneToMany
-    private List<ItemModelo> itens;
+    @Lob
+    @Column(name = "MOD_FILE")
+    private byte[] file;
 }

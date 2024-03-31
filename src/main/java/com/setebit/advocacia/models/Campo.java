@@ -22,7 +22,7 @@ public class Campo {
     @Column(name = "CAM_ID")
     private Long id;
 
-    @Column(name = "CAM_NAME", length = 50, nullable = false)
+    @Column(name = "CAM_NAME", length = 50, unique = true, nullable = false)
     private String name;
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -16,8 +17,19 @@ public class CampoService {
     @Autowired
     private CampoRepository campoRepository;
 
+    public List<Campo> find(String name) {
+        if (Objects.nonNull(name)){
+            return findByNameContaining(name);
+        }
+        return campoRepository.findAll();
+    }
+
     public List<Campo> findAll() {
         return campoRepository.findAll();
+    }
+
+    public List<Campo> findByNameContaining(String name) {
+        return campoRepository.findByNameContaining(name);
     }
 
     public Campo save(Campo entity) {

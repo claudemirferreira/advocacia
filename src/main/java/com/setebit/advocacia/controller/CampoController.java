@@ -12,29 +12,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/campo/")
-@CrossOrigin
 public class CampoController {
 
     @Autowired
     private CampoService campoService;
 
     @GetMapping
-    public List<Campo> findAll() {
-        List<Campo> list = campoService.findAll();
-        return list;
+    public ResponseEntity<List<Campo>> find(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok().body(campoService.find(name));
     }
 
     @PostMapping
-    public Campo save(@RequestBody Campo Campo) {
-        return campoService.save(Campo);
+    public ResponseEntity<Campo> save(@RequestBody Campo campo) {
+        return ResponseEntity.ok().body(campoService.save(campo));
     }
 
     @PutMapping("/{id}")
     public Campo save(@PathVariable Long id, @RequestBody Campo campo) {
         campo.setId(id);
         return campoService.save(campo);
+    }
+
+    @GetMapping("/{id}")
+    public Campo findById(@PathVariable Long id) {
+        return campoService.findById(id);
     }
 
     @DeleteMapping("/{id}")
