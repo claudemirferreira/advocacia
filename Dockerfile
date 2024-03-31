@@ -12,6 +12,9 @@ RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | a
     apt-get update && \
     apt-get install -y adoptopenjdk-20-hotspot
 
+# Instalação do Maven
+RUN apt-get install -y maven
+
 # Definir a variável de ambiente JAVA_HOME
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-20-hotspot-amd64
 
