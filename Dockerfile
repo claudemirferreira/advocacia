@@ -1,28 +1,24 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y wget
+RUN apt update -y && apt install -y openjdk-21-jre-headless && rm -rf /var/lib/apt/lists/*
 
-# Download e instalação do OpenJDK 20
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb focal main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
-    apt-get update && \
-    apt-get install -y adoptopenjdk-20-hotspot
+ENV APP_HOME /app
 
-# Instalação do Maven
-RUN apt-get install -y maven
+RUN groupadd -r app && useradd -r -gapp app
+RUN mkdir -m 0755 -p ${APP_HOME}/bin
+RUN mkdir -m 0755 -p ${APP_HOME}/config
+RUN mkdir -m 0755 -p ${APP_HOME}/logs/
 
-# Definir a variável de ambiente JAVA_HOME
-ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-20-hotspot-amd64
+COPY target/app.jar ${APP_HOME}/bin
+COPY docker-entrypoint.sh /
 
 RUN mvn clean install
 
-# Criar um diretório de trabalho
-WORKDIR /app
+RUN chown -R app:app ${APP_HOME}
+RUN chmod +x /docker-entrypoint.sh
 
-# Copiar o arquivo JAR da sua aplicação para o contêiner
-COPY ./target/app.jar /app/app.jar
+EXPOSE 8080
+EXPOSE 8443
 
-# Comando para executar a aplicação Java
-CMD ["java", "-jar", "app.jar"]
+WORKDIR ${APP_HOME}
+CMD ["/docker-entrypoint.sh"]
