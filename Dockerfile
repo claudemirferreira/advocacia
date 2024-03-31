@@ -8,6 +8,8 @@ ENV APP_NAME="app.jar" \
 # Definindo o diretório de trabalho dentro da imagem
 WORKDIR /app
 
+RUN mvn clean install
+
 # Copiando o arquivo JAR da sua aplicação para o diretório de trabalho na imagem
 COPY ./app.jar /app/app.jar
 
