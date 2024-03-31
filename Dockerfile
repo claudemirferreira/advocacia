@@ -1,7 +1,5 @@
-# Usar a imagem do Ubuntu 20.04 como base
 FROM ubuntu:20.04
 
-# Atualizar os pacotes do sistema
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y wget
@@ -23,9 +21,8 @@ RUN mvn clean install
 # Criar um diretório de trabalho
 WORKDIR /app
 
-
 # Copiar o arquivo JAR da sua aplicação para o contêiner
-COPY ./target/app.jar /app.jar
+COPY ./target/app.jar /app/app.jar
 
 # Comando para executar a aplicação Java
 CMD ["java", "-jar", "app.jar"]
