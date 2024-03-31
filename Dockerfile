@@ -11,7 +11,7 @@ WORKDIR /app
 RUN mvn clean install
 
 # Copiando o arquivo JAR da sua aplicação para o diretório de trabalho na imagem
-COPY ./app.jar /app/app.jar
+COPY /target/app.jar /app/app.jar
 
 # Expondo a porta que a aplicação irá utilizar
 EXPOSE $APP_PORT
