@@ -15,10 +15,11 @@ RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | a
 # Definir a variável de ambiente JAVA_HOME
 ENV JAVA_HOME /usr/lib/jvm/adoptopenjdk-20-hotspot-amd64
 
+RUN mvn clean install
+
 # Criar um diretório de trabalho
 WORKDIR /app
 
-RUN mvn clean install
 
 # Copiar o arquivo JAR da sua aplicação para o contêiner
 COPY ./target/app.jar /app.jar
