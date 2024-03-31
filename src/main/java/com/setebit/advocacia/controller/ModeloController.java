@@ -1,13 +1,10 @@
 package com.setebit.advocacia.controller;
 
-import com.setebit.advocacia.dto.CampoValorDTO;
+import com.setebit.advocacia.dto.PalavraChaveValorDTO;
 import com.setebit.advocacia.dto.ModeloDocumentoDTO;
-import com.setebit.advocacia.models.Campo;
 import com.setebit.advocacia.models.Modelo;
 import com.setebit.advocacia.service.ModeloService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +58,7 @@ public class ModeloController {
     }
 
     @GetMapping(value = "campo-valor")
-    public ResponseEntity<List<CampoValorDTO>> getCampoValor() {
+    public ResponseEntity<List<PalavraChaveValorDTO>> getCampoValor() {
         return ResponseEntity.ok(modeloService.getCampoValor());
     }
 

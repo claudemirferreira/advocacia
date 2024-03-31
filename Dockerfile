@@ -1,23 +1,10 @@
 FROM adoptopenjdk/openjdk16:alpine-jre
 
-# Definindo variáveis de ambiente
-ENV APP_NAME="app.jar" \
-    APP_VERSION="1.0" \
-    APP_PORT="8080"
+# Copy the JAR file into the container
+COPY target/app.jar app.jar
 
-# Definindo o diretório de trabalho dentro da imagem
-WORKDIR /app
+# Expose port 80
+EXPOSE 8080
 
-RUN mvn package
-
-# Copiando o arquivo JAR da sua aplicação para o diretório de trabalho na imagem
-COPY /target/app.jar /app/app.jar
-
-# Expondo a porta que a aplicação irá utilizar
-EXPOSE $APP_PORT
-
-# Comando para executar a aplicação quando o container for iniciado
-#CMD ["java", "-jar", "app.jar"]
-# Run the jar file
-CMD ["java", "-jar", "target/app.jar"]
-
+# Define the entry point to run your application
+ENTRYPOINT ["java", "-jar", "app.jar"]

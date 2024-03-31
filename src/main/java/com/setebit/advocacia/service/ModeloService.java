@@ -1,10 +1,10 @@
 package com.setebit.advocacia.service;
 
-import com.setebit.advocacia.dto.CampoValorDTO;
+import com.setebit.advocacia.dto.PalavraChaveValorDTO;
 import com.setebit.advocacia.dto.ModeloDocumentoDTO;
-import com.setebit.advocacia.models.Campo;
+import com.setebit.advocacia.models.PalavraChave;
 import com.setebit.advocacia.models.Modelo;
-import com.setebit.advocacia.repository.CampoRepository;
+import com.setebit.advocacia.repository.PalavraChaveRepository;
 import com.setebit.advocacia.repository.ModeloRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +28,25 @@ public class ModeloService {
     @Autowired
     private ModeloRepository modeloRepository;
     @Autowired
-    private CampoRepository campoRepository;
+    private PalavraChaveRepository palavraChaveRepository;
 
     @Autowired
     private FileService fileService;
 
-
     public Modelo saveFile(Long id, InputStream inputStream) throws IOException {
         Modelo modelo = findById(id);
         modelo.setFile(inputStream.readAllBytes());
-        return save(modelo);
+        return modeloRepository.save(modelo);
     }
 
     public Modelo save(Modelo entity) {
-        Modelo modelo = findById(entity.getId());
-        modelo.setFile(entity.getFile());
-        return modeloRepository.save(entity);
+        try {
+            Modelo modelo = findById(entity.getId());
+            modelo.setFile(entity.getFile());
+            return modeloRepository.save(entity);
+        } catch (Exception e){
+            return modeloRepository.save(entity);
+        }
     }
 
     public Modelo findById(Long id) {
@@ -78,11 +81,11 @@ public class ModeloService {
         modeloRepository.deleteById(id);
     }
 
-    public List<CampoValorDTO> getCampoValor(){
-        List<CampoValorDTO> camposValor = new ArrayList<>();
-        List<Campo> campos = campoRepository.findAll();
+    public List<PalavraChaveValorDTO> getCampoValor(){
+        List<PalavraChaveValorDTO> camposValor = new ArrayList<>();
+        List<PalavraChave> campos = palavraChaveRepository.findAll();
         campos.forEach( campo -> {
-            camposValor.add(new CampoValorDTO(campo.getName(), ""));
+            camposValor.add(new PalavraChaveValorDTO(campo.getName(), ""));
         });
         return camposValor;
     }

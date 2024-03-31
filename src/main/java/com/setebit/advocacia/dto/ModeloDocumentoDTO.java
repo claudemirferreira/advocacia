@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ModeloDocumentoDTO {
     private Long id;
-    private List<CampoValorDTO> camposValor;
+    private List<PalavraChaveValorDTO> camposValor;
 }

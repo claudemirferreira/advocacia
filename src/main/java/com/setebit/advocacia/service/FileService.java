@@ -1,6 +1,6 @@
 package com.setebit.advocacia.service;
 
-import com.setebit.advocacia.dto.CampoValorDTO;
+import com.setebit.advocacia.dto.PalavraChaveValorDTO;
 import com.setebit.advocacia.dto.ModeloDocumentoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -41,7 +41,7 @@ public class FileService {
     }
 
     public void replaceText(String text, ModeloDocumentoDTO modeloDocumentoDTO, XWPFRun r){
-        for (CampoValorDTO campoValorDTO: modeloDocumentoDTO.getCamposValor()){
+        for (PalavraChaveValorDTO campoValorDTO: modeloDocumentoDTO.getCamposValor()){
             if (text != null && text.contains(campoValorDTO.getNome())) {
                 text = text.replace(campoValorDTO.getNome(), campoValorDTO.getValor());
                 r.setText(text, 0);

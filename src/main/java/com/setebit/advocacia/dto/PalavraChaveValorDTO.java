@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CampoValorDTO {
+public class PalavraChaveValorDTO {
     private String nome;
     private String valor;
 }
