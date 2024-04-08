@@ -41,9 +41,14 @@ public class ModeloService {
     }
 
     public Modelo save(Modelo entity) {
-        Modelo modelo = findById(entity.getId());
-        modelo.setFile(entity.getFile());
-        return modeloRepository.save(entity);
+        try {
+            Modelo modelo = findById(entity.getId());
+            modelo.setFile(entity.getFile());
+            return modeloRepository.save(modelo);
+        } catch (Exception e){
+            return modeloRepository.save(entity);
+        }
+
     }
 
     public Modelo findById(Long id) {

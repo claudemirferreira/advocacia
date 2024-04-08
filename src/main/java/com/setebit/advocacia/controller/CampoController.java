@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/campo/")
+@RequestMapping("/palavra-chave/")
 public class CampoController {
 
     @Autowired
